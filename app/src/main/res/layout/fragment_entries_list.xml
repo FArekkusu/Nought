@@ -24,30 +24,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
+                <ImageButton
                     android:id="@+id/go_to_adder_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/go_to_entry_adder_text"
-                    android:textColor="@color/white"
+                    android:src="@drawable/ic_title_white_24dp"
                     app:backgroundTint="@color/colorPrimary"
+                    android:contentDescription="@string/go_to_adder_description"
                     android:onClick="@{() -> entriesListViewModel.onEnter(0)}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/add_image_button" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/add_image_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_image_text"
-                    android:textColor="@color/white"
+                    android:src="@drawable/ic_insert_photo_white_24dp"
                     app:backgroundTint="@color/colorPrimary"
+                    android:contentDescription="@string/add_image_description"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/go_to_adder_button"
-                    app:layout_constraintEnd_toStartOf="@id/unmark_all_button" />
+                    app:layout_constraintStart_toEndOf="@id/go_to_adder_button" />
+
+                <ImageButton
+                    android:id="@+id/take_photo_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_camera_alt_white_24dp"
+                    app:backgroundTint="@color/colorPrimary"
+                    android:contentDescription="@string/take_photo_description"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/add_image_button" />
 
                 <Button
                     android:id="@+id/unmark_all_button"
@@ -57,7 +66,6 @@
                     android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/add_image_button"
                     app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

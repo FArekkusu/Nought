@@ -3,18 +3,23 @@ package com.example.nought.entrieslist
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.media.ExifInterface
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -28,6 +33,10 @@ import com.example.nought.R
 import com.example.nought.database.EntryDatabase
 import com.example.nought.databinding.FragmentEntriesListBinding
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.min
 import kotlin.math.round
 
@@ -36,6 +45,7 @@ class EntriesListFragment : Fragment() {
     lateinit var entriesListViewModel: EntriesListViewModel
     lateinit var adapter: EntryAdapter
     var replacedImageEntryId: Long = 0L
+    lateinit var currentPhotoPath: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -134,7 +144,7 @@ class EntriesListFragment : Fragment() {
         binding.addImageButton.setOnClickListener {
             val intent = Intent(if (Build.VERSION.SDK_INT > 18) Intent.ACTION_OPEN_DOCUMENT else Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
-            startActivityForResult(intent, 1)
+            startActivityForResult(intent, REQUEST_ADD_IMAGE)
         }
 
         binding.unmarkAllButton.setOnClickListener {
@@ -146,12 +156,48 @@ class EntriesListFragment : Fragment() {
                 .show()
         }
 
+        val packageManager = requireActivity().packageManager
+
+        binding.takePhotoButton.setOnClickListener {
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                takePictureIntent.resolveActivity(packageManager)?.also {
+                    val photoFile: File? = try {
+                        createImageFile()
+                    } catch (ex: IOException) {
+                        return@setOnClickListener
+                    }
+                    photoFile?.also {
+                        val photoURI: Uri = FileProvider.getUriForFile(
+                            requireContext(),
+                            "com.example.nought.fileprovider",
+                            it
+                        )
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+                    }
+                }
+            }
+        }
+
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+            binding.takePhotoButton.isEnabled = false
+            binding.takePhotoButton.visibility = View.GONE
+        }
+
         return binding.root
+    }
+
+    private fun createImageFile(): File {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
+            currentPhotoPath = absolutePath
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_ADD_IMAGE && resultCode == Activity.RESULT_OK) {
             if (data == null) return
 
             val options = BitmapFactory.Options()
@@ -181,6 +227,28 @@ class EntriesListFragment : Fragment() {
             val encodedString = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
             entriesListViewModel.onUpsertImage(replacedImageEntryId, encodedString)
             replacedImageEntryId = 0L
+        } else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+            val file = File(currentPhotoPath)
+
+            val options = BitmapFactory.Options()
+            options.inJustDecodeBounds = true
+
+            BitmapFactory.decodeFile(file.path, options)
+
+            options.inSampleSize = calculateInSampleSize(options)
+            options.inJustDecodeBounds = false
+
+            val ei = ExifInterface(file.path)
+
+            val orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+            val image = BitmapFactory.decodeFile(file.path, options)
+            val outputStream = ByteArrayOutputStream()
+            rotateIfRequired(image!!, orientation).compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+
+            file.delete()
+
+            val encodedString = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
+            entriesListViewModel.onUpsertImage(0L, encodedString)
         }
     }
 
@@ -243,6 +311,8 @@ class EntriesListFragment : Fragment() {
     }
 
     companion object {
+        const val REQUEST_ADD_IMAGE = 1
+        const val REQUEST_TAKE_PHOTO = 2
         const val MAX_ALOWED_WIDTH = 1024
         const val MAX_ALLOWED_HEIGHT = 1024
     }

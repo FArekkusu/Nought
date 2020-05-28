@@ -10,4 +10,7 @@
     <string name="submit">Submit</string>
     <string name="no_notes_message">No notes yet</string>
     <string name="image_content_description">Image entry</string>
+    <string name="go_to_adder_description">Add a text entry button</string>
+    <string name="add_image_description">Add an image from device button</string>
+    <string name="take_photo_description">Take photo button</string>
 </resources>
