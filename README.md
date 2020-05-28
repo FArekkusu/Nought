@@ -6,9 +6,10 @@ A simple notebook/to-do list application which allows creating notes comprising 
 
 ## Features
 
-* Create notes which automatically track how many tasks have been completed
-* Create and edit textual entries which can be marked/unmarked as completed in a to-do list fashion
-* Attach images to your notes as a reference/reminder in addition to textual information
+* Create notes which automatically track how many tasks you have completed
+* Create textual entries which can be marked/unmarked as completed in a to-do list fashion
+* Attach images to your notes as references or reminders in addition to textual information
+* Take photos and attach them to your notes instantly without leaving the app
 
 ## Technological stack
 
@@ -16,4 +17,4 @@ A simple notebook/to-do list application which allows creating notes comprising 
 
 ## Team
 
-Solo project.
+Solo project
