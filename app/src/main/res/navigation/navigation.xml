@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/notes_list_fragment">
+
+    <fragment
+        android:id="@+id/notes_list_fragment"
+        android:name="com.example.nought.noteslist.NotesListFragment"
+        android:label="NotesListFragment"
+        tools:layout="@layout/fragment_notes_list">
+        <action
+            android:id="@+id/action_notesListFragment_to_entriesListFragment"
+            app:destination="@id/entries_list_fragment"
+            app:launchSingleTop="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/entries_list_fragment"
+        android:name="com.example.nought.entrieslist.EntriesListFragment"
+        android:label="EntriesListFragment"
+        tools:layout="@layout/fragment_entries_list">
+        <argument
+            android:name="noteId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_entriesListFragment_to_entryUpsertFragment"
+            app:destination="@id/entry_upsert_fragment"
+            app:launchSingleTop="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_right" />
+        <action
+            android:id="@+id/action_entriesListFragment_to_notesListFragment"
+            app:destination="@+id/notes_list_fragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@+id/notes_list_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/entry_upsert_fragment"
+        android:name="com.example.nought.entryupsert.EntryUpsertFragment"
+        android:label="EntryUpsertFragment"
+        tools:layout="@layout/fragment_entry_upsert">
+        <argument
+            android:name="noteId"
+            app:argType="long" />
+        <argument
+            android:name="entryId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_entryUpsertFragment_to_entriesListFragment"
+            app:destination="@id/entries_list_fragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@+id/entries_list_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

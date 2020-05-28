@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="go_to_entry_adder_text">Add an entry</string>
+    <string name="add_image_text">Add an image</string>
+    <string name="unmark_all_text">Unmark all</string>
+    <string name="no_entries_message">No entries yet</string>
+    <string name="entry_hint">Entry text</string>
+    <string name="cancel">Cancel</string>
+    <string name="submit">Submit</string>
+    <string name="no_notes_message">No notes yet</string>
+    <string name="image_content_description">Image entry</string>
+</resources>
