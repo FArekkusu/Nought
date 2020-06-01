@@ -25,4 +25,4 @@ Solo project
 
 ## Prototype
 
-[Link to interactive prototype](https://pr.to/KXBPCV/)
+[Link to prototype](https://github.com/FArekkusu/Nought/blob/master/Nought%20prototype.pdf)
