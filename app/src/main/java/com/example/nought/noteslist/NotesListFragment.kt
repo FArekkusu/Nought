@@ -2,7 +2,6 @@ package com.example.nought.noteslist
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -79,7 +78,6 @@ class NotesListFragment : Fragment() {
         binding.createNoteFab.setOnClickListener {
             val editText = EditText(requireContext())
             editText.setText(renamedNoteTitle)
-            editText.filters = arrayOf(InputFilter.LengthFilter(34))
             renamedNoteTitle = ""
             AlertDialog.Builder(requireContext())
                 .setTitle("Set note's title:")
