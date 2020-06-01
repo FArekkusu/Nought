@@ -25,4 +25,4 @@ Solo project
 
 ## Prototype
 
-[Link to prototype](https://github.com/FArekkusu/Nought/blob/master/Nought%20prototype.pdf)
+[Link to prototype](https://github.com/FArekkusu/Nought/blob/master/prototype/Nought%20prototype.pdf)
