@@ -25,4 +25,4 @@ Solo project
 
 ## Prototype
 
-[Link to interactable prototype](https://pr.to/KXBPCV/)
+[Link to interactive prototype](https://pr.to/KXBPCV/)
