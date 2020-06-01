@@ -3,9 +3,11 @@ package com.example.nought.entrieslist
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.nought.database.Entry
 import com.example.nought.database.EntryDatabaseDao
+import com.example.nought.database.Note
 import kotlinx.coroutines.*
 
 class EntriesListViewModel(
@@ -20,10 +22,18 @@ class EntriesListViewModel(
 
     val entries = database.getAllEntries(noteId)
 
+    private val note = MediatorLiveData<Note>()
+
+    fun getNote() = note
+
     private val _navigateToEntryUpsert = MutableLiveData<Long>()
 
     val navigateToEntryUpsert: LiveData<Long>
         get() = _navigateToEntryUpsert
+
+    init {
+        note.addSource(database.getNote(noteId), note::setValue)
+    }
 
     fun onEnter(id: Long) {
         uiScope.launch {
