@@ -18,3 +18,11 @@ A simple notebook/to-do list application which allows creating notes comprising 
 ## Team
 
 Solo project
+
+## Used architecture - MVVM
+
+![MVVM architecture](https://github.com/FArekkusu/Nought/blob/master/images/MVVM%20architecture.png)
+
+## Prototype
+
+[Link to prototype](https://github.com/FArekkusu/Nought/blob/master/prototype/Nought%20prototype.pdf)
