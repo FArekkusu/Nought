@@ -21,4 +21,4 @@ Solo project
 
 ## Used architecture - MVVM
 
-![MVVM architecture graph](https://github.com/FArekkusu/Nought/blob/master/images/MVVM%20arcthitecture.png)
+![MVVM architecture](https://github.com/FArekkusu/Nought/blob/master/images/MVVM%20architecture.png)
