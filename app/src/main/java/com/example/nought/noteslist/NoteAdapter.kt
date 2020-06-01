@@ -67,6 +67,7 @@ class NoteAdapter(val clickListener: NoteListener) : ListAdapter<DataItem,
             binding.note = item
             val word = if (marked == 1) "entry" else "entries"
             binding.markedVsCompleted = "${marked}/${total} ${word} marked as completed"
+            binding.allMarked = total > 0 && marked == total
             binding.executePendingBindings()
         }
 

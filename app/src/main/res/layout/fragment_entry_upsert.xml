@@ -16,43 +16,45 @@
         android:gravity="center"
         tools:context=".entryupsert.EntryUpsertFragment">
 
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/cancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/submit_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/submit"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/colorPrimary"
+            app:layout_constraintStart_toEndOf="@+id/cancel_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <EditText
             android:id="@+id/entry_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="40"
             android:gravity="start|top"
             android:inputType="textMultiLine"
-            android:minLines="10"
-            android:maxLines="10"
+            android:minLines="8"
+            android:maxLines="8"
             android:scrollbars="vertical"
             android:autofillHints="New entry text"
             android:text="@{entryUpsertViewModel.entry.content}"
             android:hint="@string/entry_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/submit_button" />
 
-        <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/cancel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/submit_button"
-            app:layout_constraintTop_toBottomOf="@+id/entry_text" />
-
-        <Button
-            android:id="@+id/submit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/submit"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/colorPrimary"
-            app:layout_constraintStart_toEndOf="@+id/cancel_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/entry_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

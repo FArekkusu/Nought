@@ -11,13 +11,17 @@
         <variable
             name="markedVsCompleted"
             type="String"/>
+
+        <variable
+            name="allMarked"
+            type="Boolean"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@{allMarked ? @color/green : @color/white}">
 
         <TextView
             android:id="@+id/title"
