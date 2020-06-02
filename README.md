@@ -26,3 +26,7 @@ Solo project
 ## Prototype
 
 [Link to prototype](https://github.com/FArekkusu/Nought/blob/master/prototype/Nought%20prototype.pdf)
+
+## Debug APK
+
+[Link to debug APK](https://github.com/FArekkusu/Nought/blob/master/debug%20apk/app-debug.apk)
