@@ -21,7 +21,7 @@ Solo project
 
 ## Used architecture - MVVM
 
-![MVVM architecture](https://github.com/FArekkusu/Nought/blob/master/images/MVVM%20architecture.png)
+![MVVM architecture]()
 
 ## Prototype
 
