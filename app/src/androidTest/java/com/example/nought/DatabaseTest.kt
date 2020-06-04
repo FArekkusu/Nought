@@ -93,13 +93,14 @@ class DatabaseTest {
 
 
         // Insert entries for note #1
-        dao.insert(Entry(content = "", noteId = allNotes[0].note.id, markable = true, marked = false))
-        dao.insert(Entry(content = "", noteId = allNotes[0].note.id, markable = true, marked = true))
+        val sampleText = ""
+        dao.insert(Entry(content = sampleText, noteId = allNotes[0].note.id, markable = true, marked = false))
+        dao.insert(Entry(content = sampleText, noteId = allNotes[0].note.id, markable = true, marked = true))
 
         // Insert entries for note #2
-        dao.insert(Entry(content = "", noteId = allNotes[1].note.id, markable = false, marked = false))
-        dao.insert(Entry(content = "", noteId = allNotes[1].note.id, markable = true, marked = false))
-        dao.insert(Entry(content = "", noteId = allNotes[1].note.id, markable = true, marked = true))
+        dao.insert(Entry(content = sampleText, noteId = allNotes[1].note.id, markable = false, marked = false))
+        dao.insert(Entry(content = sampleText, noteId = allNotes[1].note.id, markable = true, marked = false))
+        dao.insert(Entry(content = sampleText, noteId = allNotes[1].note.id, markable = true, marked = true))
 
 
         // Note #1 has 2 entries
@@ -133,7 +134,9 @@ class DatabaseTest {
         dao.updateText(allEntries[1].id, newText)
         allEntries = dao.getAllEntriesSync(allNotes[1].note.id)
         assertEquals(3, allEntries.size)
+        assertEquals(sampleText, allEntries[0].content)
         assertEquals(newText, allEntries[1].content)
+        assertEquals(sampleText, allEntries[2].content)
 
 
         // Second note's marked count is up to date, first note's marked count didn't change
