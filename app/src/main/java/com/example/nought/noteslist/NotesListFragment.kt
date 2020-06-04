@@ -77,6 +77,7 @@ class NotesListFragment : Fragment() {
 
         binding.createNoteFab.setOnClickListener {
             val editText = EditText(requireContext())
+            editText.id = R.id.note_title_edit_field
             editText.setText(renamedNoteTitle)
             renamedNoteTitle = ""
             AlertDialog.Builder(requireContext())
