@@ -35,30 +35,47 @@ interface EntryDatabaseDao {
     @Query("SELECT * FROM notes WHERE id = :id")
     fun getNote(id: Long): LiveData<Note>
 
-    @Query("SELECT * FROM notes WHERE id = :id")
-    fun getNoteSync(id: Long): Note
-
     @Query("SELECT * FROM entries WHERE note_id = :noteId ORDER BY id")
     fun getAllEntries(noteId: Long): LiveData<List<Entry>>
 
     @Query("SELECT * FROM entries WHERE note_id = :noteId ORDER BY id")
     fun getAllEntriesSync(noteId: Long): List<Entry>
 
+    @Query("SELECT * FROM entries ORDER BY id")
+    fun getAllEntriesForAllNotesSync(): List<Entry>
+
     @Insert
     fun insert(note: Note): Long
 
     @Query("""
         SELECT
-          n.*,
-          SUM(CASE WHEN e.marked THEN 1 ELSE 0 END) AS marked_entries,
-          SUM(CASE WHEN e.markable THEN 1 ELSE 0 END) AS total_entries
+            n.*,
+            SUM(CASE WHEN e.marked THEN 1 ELSE 0 END) AS marked_entries,
+            SUM(CASE WHEN e.markable THEN 1 ELSE 0 END) AS total_entries
         FROM
-          notes AS n
-          LEFT JOIN entries AS e ON n.id = e.note_id
+            notes AS n
+            LEFT JOIN entries AS e ON n.id = e.note_id
         GROUP BY
-          n.id, n.title
+            n.id, n.title
+        ORDER BY
+            n.id
     """)
     fun getAllNotes(): LiveData<List<NoteWithTotals>>
+
+    @Query("""
+        SELECT
+            n.*,
+            SUM(CASE WHEN e.marked THEN 1 ELSE 0 END) AS marked_entries,
+            SUM(CASE WHEN e.markable THEN 1 ELSE 0 END) AS total_entries
+        FROM
+            notes AS n
+            LEFT JOIN entries AS e ON n.id = e.note_id
+        GROUP BY
+            n.id, n.title
+        ORDER BY
+            n.id
+    """)
+    fun getAllNotesSync(): List<NoteWithTotals>
 }
 
 data class NoteWithTotals(
