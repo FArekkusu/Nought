@@ -51,7 +51,7 @@ class DatabaseTest {
 
 
         // Correct title and totals
-        var note = allNotes[0].note
+        val note = allNotes[0].note
         assertEquals(title, note.title)
         assertEquals(0, allNotes[0].markedEntries)
         assertEquals(0, allNotes[0].totalEntries)
@@ -62,13 +62,9 @@ class DatabaseTest {
         dao.updateTitle(note.id, newTitle)
         allNotes = dao.getAllNotesSync()
         assertEquals(1, allNotes.size)
+        assertEquals(newTitle, allNotes[0].note.title)
         assertEquals(0, allNotes[0].markedEntries)
         assertEquals(0, allNotes[0].totalEntries)
-
-
-        // Note title was updated
-        note = allNotes[0].note
-        assertEquals(newTitle, note.title)
 
 
         // Note was deleted
