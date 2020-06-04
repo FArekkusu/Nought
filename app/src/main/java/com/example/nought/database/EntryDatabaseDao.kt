@@ -35,6 +35,9 @@ interface EntryDatabaseDao {
     @Query("SELECT * FROM notes WHERE id = :id")
     fun getNote(id: Long): LiveData<Note>
 
+    @Query("SELECT * FROM notes WHERE id = :id")
+    fun getNoteSync(id: Long): Note
+
     @Query("SELECT * FROM entries WHERE note_id = :noteId ORDER BY id")
     fun getAllEntries(noteId: Long): LiveData<List<Entry>>
 
