@@ -52,8 +52,17 @@ class UITest {
         onView(withId(R.id.note_list)).check(matches(isDisplayed()))
 
 
-        // Note title can be changed
+        // Title changing can be cancelled
         val newTitlePiece = " 2.0"
+        onView(withText(title)).perform(longClick())
+        onView(withText("Rename")).perform(click())
+        onView(withId(R.id.note_title_edit_field)).perform(typeText(newTitlePiece), closeSoftKeyboard())
+        onView(withText("Cancel")).perform(click())
+        onView(withText(title)).check(matches(isDisplayed()))
+        onView(withId(R.id.note_list)).check(matches(not(hasDescendant(withText(title + newTitlePiece)))))
+
+
+        // Note title can be changed
         onView(withText(title)).perform(longClick())
         onView(withText("Rename")).perform(click())
         onView(withId(R.id.note_title_edit_field)).perform(typeText(newTitlePiece), closeSoftKeyboard())
@@ -66,8 +75,16 @@ class UITest {
         onView(withId(R.id.entries_list_note_title)).check(matches(withText(containsString(title + newTitlePiece))))
 
 
-        // Note list is empty again
+        // Note deletion can be cancelled
         onView(isRoot()).perform(pressBack())
+        onView(withText(title + newTitlePiece)).perform(longClick())
+        onView(withText("Delete")).perform(click())
+        onView(withText("No")).perform(click())
+        onView(withId(R.id.empty_note_list_message)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.note_list)).check(matches(isDisplayed()))
+
+
+        // Note list is empty again
         onView(withText(title + newTitlePiece)).perform(longClick())
         onView(withText("Delete")).perform(click())
         onView(withText("Yes")).perform(click())
