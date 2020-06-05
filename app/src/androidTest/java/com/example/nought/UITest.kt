@@ -45,6 +45,7 @@ class UITest {
         onView(withText("Submit")).perform(click())
         onView(withId(R.id.entries_list_note_title)).check(matches(withText(containsString(title))))
 
+
         // Note list is not empty anymore
         onView(isRoot()).perform(pressBack())
         onView(withId(R.id.empty_note_list_message)).check(matches(not(isDisplayed())))
@@ -64,6 +65,7 @@ class UITest {
         onView(withText(title + newTitlePiece)).perform(click())
         onView(withId(R.id.entries_list_note_title)).check(matches(withText(containsString(title + newTitlePiece))))
 
+
         // Note list is empty again
         onView(isRoot()).perform(pressBack())
         onView(withText(title + newTitlePiece)).perform(longClick())
@@ -80,6 +82,7 @@ class UITest {
         val noteTitle = "My note"
         onView(withId(R.id.note_title_edit_field)).perform(typeText(noteTitle), closeSoftKeyboard())
         onView(withText("Submit")).perform(click())
+
 
         // Entry list is empty
         onView(withId(R.id.empty_entry_list_message)).check(matches(isDisplayed()))
