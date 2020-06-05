@@ -135,13 +135,47 @@ class UITest {
         onView(withId(R.id.entry_list)).check(matches(isDisplayed()))
 
 
-        // Entry content can be changed
+        // Content changing can be cancelled with "Cancel" button
         val newTextPiece = " 2.0"
+        onView(withText(entryText)).perform(longClick())
+        onView(withText("Edit")).perform(click())
+        onView(withId(R.id.entry_text)).perform(typeText(newTextPiece))
+        onView(withId(R.id.cancel_button)).perform(click())
+        onView(withText(entryText)).check(matches(isDisplayed()))
+        onView(withId(R.id.entry_list)).check(matches(not(hasDescendant(withText(entryText + newTextPiece)))))
+
+
+        // Content changing can be cancelled with "Cancel" button
+        onView(withText(entryText)).perform(longClick())
+        onView(withText("Edit")).perform(click())
+        onView(withId(R.id.entry_text)).perform(typeText(newTextPiece), closeSoftKeyboard())
+        onView(isRoot()).perform(pressBack())
+        onView(withText(entryText)).check(matches(isDisplayed()))
+        onView(withId(R.id.entry_list)).check(matches(not(hasDescendant(withText(entryText + newTextPiece)))))
+
+
+        // Entry content can be changed
         onView(withText(entryText)).perform(longClick())
         onView(withText("Edit")).perform(click())
         onView(withId(R.id.entry_text)).perform(typeText(newTextPiece))
         onView(withId(R.id.submit_button)).perform(click())
         onView(withText(entryText + newTextPiece)).check(matches(isDisplayed()))
+
+
+        // Entry deletion can be cancelled with "No" button
+        onView(withText(entryText + newTextPiece)).perform(longClick())
+        onView(withText("Delete")).perform(click())
+        onView(withText("No")).perform(click())
+        onView(withId(R.id.empty_entry_list_message)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.entry_list)).check(matches(isDisplayed()))
+
+
+        // Entry deletion can be cancelled with back button
+        onView(withText(entryText + newTextPiece)).perform(longClick())
+        onView(withText("Delete")).perform(click())
+        onView(isRoot()).perform(pressBack())
+        onView(withId(R.id.empty_entry_list_message)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.entry_list)).check(matches(isDisplayed()))
 
 
         // Entry list is empty again
