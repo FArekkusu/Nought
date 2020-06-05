@@ -242,11 +242,20 @@ class UITest {
 
         // Mark first entry
         onView(withId(R.id.note_list)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.unmark_all_button)).check(matches(not(isDisplayed())))
         onView(withText(firstEntryText)).perform(swipeRight())
         onView(withText(firstEntryText)).check(matches(hasTextColor(R.color.gray)))
+        onView(withId(R.id.unmark_all_button)).check(matches(isDisplayed()))
 
 
-        // Check 1 marked, 2 total
+        // Unmark first entry, check that "unmark all" button disappears
+        onView(withText(firstEntryText)).perform(swipeRight())
+        onView(withText(firstEntryText)).check(matches(hasTextColor(R.color.black)))
+        onView(withId(R.id.unmark_all_button)).check(matches(not(isDisplayed())))
+
+
+        // Mark first entry again, and check 1 marked, 2 total
+        onView(withText(firstEntryText)).perform(swipeRight())
         onView(isRoot()).perform(pressBack())
         onView(withId(R.id.note_list)).check(matches(hasDescendant(withText(containsString("1/2 entry marked as completed")))))
         onView(withId(R.id.note_list)).check(matches(hasDescendant(withBackgroundColor(R.color.white))))
@@ -262,6 +271,38 @@ class UITest {
         onView(isRoot()).perform(pressBack())
         onView(withId(R.id.note_list)).check(matches(hasDescendant(withText(containsString("2/2 entries marked as completed")))))
         onView(withId(R.id.note_list)).check(matches(hasDescendant(withBackgroundColor(R.color.green))))
+
+
+        // Unmark all can be cancelled with "Cancel" button
+        onView(withId(R.id.note_list)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.unmark_all_button)).perform(click())
+        onView(withText("Unmark all entries?")).check(matches(isDisplayed()))
+        onView(withText("No")).perform(click())
+        onView(withId(R.id.unmark_all_button)).check(matches(isDisplayed()))
+        onView(withText(firstEntryText)).check(matches(hasTextColor(R.color.gray)))
+        onView(withText(secondEntryText)).check(matches(hasTextColor(R.color.gray)))
+
+
+        // Unmark all can be cancelled with back button
+        onView(withId(R.id.unmark_all_button)).perform(click())
+        onView(isRoot()).perform(pressBack())
+        onView(withId(R.id.unmark_all_button)).check(matches(isDisplayed()))
+        onView(withText(firstEntryText)).check(matches(hasTextColor(R.color.gray)))
+        onView(withText(secondEntryText)).check(matches(hasTextColor(R.color.gray)))
+
+
+        // All entries can be unmarked
+        onView(withId(R.id.unmark_all_button)).perform(click())
+        onView(withText("Yes")).perform(click())
+        onView(withId(R.id.unmark_all_button)).check(matches(not(isDisplayed())))
+        onView(withText(firstEntryText)).check(matches(hasTextColor(R.color.black)))
+        onView(withText(secondEntryText)).check(matches(hasTextColor(R.color.black)))
+
+
+        // Check 0 marked, 0 total
+        onView(isRoot()).perform(pressBack())
+        onView(withId(R.id.note_list)).check(matches(hasDescendant(withText(containsString("0/2 entries marked as completed")))))
+        onView(withId(R.id.note_list)).check(matches(hasDescendant(withBackgroundColor(R.color.white))))
 
 
         // Delete note
