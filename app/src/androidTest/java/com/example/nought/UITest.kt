@@ -52,12 +52,21 @@ class UITest {
         onView(withId(R.id.note_list)).check(matches(isDisplayed()))
 
 
-        // Title changing can be cancelled
+        // Title changing can be cancelled with "Cancel" button
         val newTitlePiece = " 2.0"
         onView(withText(title)).perform(longClick())
         onView(withText("Rename")).perform(click())
         onView(withId(R.id.note_title_edit_field)).perform(typeText(newTitlePiece), closeSoftKeyboard())
         onView(withText("Cancel")).perform(click())
+        onView(withText(title)).check(matches(isDisplayed()))
+        onView(withId(R.id.note_list)).check(matches(not(hasDescendant(withText(title + newTitlePiece)))))
+
+
+        // Title changing can be cancelled with back button
+        onView(withText(title)).perform(longClick())
+        onView(withText("Rename")).perform(click())
+        onView(withId(R.id.note_title_edit_field)).perform(typeText(newTitlePiece), closeSoftKeyboard())
+        onView(isRoot()).perform(pressBack())
         onView(withText(title)).check(matches(isDisplayed()))
         onView(withId(R.id.note_list)).check(matches(not(hasDescendant(withText(title + newTitlePiece)))))
 
@@ -75,7 +84,7 @@ class UITest {
         onView(withId(R.id.entries_list_note_title)).check(matches(withText(containsString(title + newTitlePiece))))
 
 
-        // Note deletion can be cancelled
+        // Note deletion can be cancelled with "No" button
         onView(isRoot()).perform(pressBack())
         onView(withText(title + newTitlePiece)).perform(longClick())
         onView(withText("Delete")).perform(click())
@@ -83,6 +92,13 @@ class UITest {
         onView(withId(R.id.empty_note_list_message)).check(matches(not(isDisplayed())))
         onView(withId(R.id.note_list)).check(matches(isDisplayed()))
 
+
+        // Note deletion can be cancelled with "No" button
+        onView(withText(title + newTitlePiece)).perform(longClick())
+        onView(withText("Delete")).perform(click())
+        onView(isRoot()).perform(pressBack())
+        onView(withId(R.id.empty_note_list_message)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.note_list)).check(matches(isDisplayed()))
 
         // Note list is empty again
         onView(withText(title + newTitlePiece)).perform(longClick())
